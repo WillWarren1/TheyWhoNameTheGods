@@ -20,7 +20,7 @@ namespace TheyWhoNameTheGods.Models
       if (!optionsBuilder.IsConfigured)
       {
         var envConn = Environment.GetEnvironmentVariable("DATABASE_URL");
-#error Update this connection string to point to your own database.
+        // #error Update this connection string to point to your own database.
         var conn = "server=localhost;database=TheyWhoNameTheGodsDatabase";
         if (envConn != null)
         {
@@ -31,6 +31,7 @@ namespace TheyWhoNameTheGods.Models
     }
 
 
-
+    public DbSet<God> Gods { get; set; }
+    public DbSet<Creation> Creations { get; set; }
   }
 }
