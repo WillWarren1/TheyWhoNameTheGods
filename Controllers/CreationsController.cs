@@ -45,8 +45,8 @@ namespace content.Controllers
     }
 
     //PUT api/Creations/name/quantity
-    [HttpPut("{id}/{quantity}")]
-    public async Task<IActionResult> ChangePopulation(int id, int quantity)
+    [HttpPut("{id}/{addOrSubtract}/{quantity}")]
+    public async Task<IActionResult> ChangePopulation(int id, string addOrSubtract, int quantity)
     {
       var specificCreation = await _context
         .Creations
@@ -57,7 +57,15 @@ namespace content.Controllers
         return NotFound();
       }
 
-      specificCreation.Population -= quantity;
+      if (addOrSubtract == "add")
+      {
+        specificCreation.Population += quantity;
+      }
+      else
+      {
+        specificCreation.Population -= quantity;
+      }
+
       await _context.SaveChangesAsync();
       return Ok(new { specificCreation });
     }
@@ -66,12 +74,12 @@ namespace content.Controllers
     [HttpPost]
     public async Task<ActionResult<Creation>> PostCreation(Creation creation)
     {
-
+      Console.WriteLine(creation.BelongsToGod);
       var PatronDeity = await _context
         .Gods
         .Include(i => i.DivineCreations)
         .FirstOrDefaultAsync(f => f.Name == creation.BelongsToGod);
-
+      Console.WriteLine(PatronDeity.Id);
       creation.GodId = PatronDeity.Id;
 
       _context.Creations.Add(creation);

@@ -9,17 +9,14 @@ import {
   useRecoilState,
   useRecoilValue,
 } from 'recoil'
+import MainInput from './components/main-input'
+import ActivityFeed from './components/activity-feed'
 
 function App() {
   return (
     <RecoilRoot>
       <div className="App">
-        <header className="App-header">
-          {/* <Router>
-            <Switch>
-              <Route path="/" component />
-            </Switch>
-          </Router> */}
+        <main className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.js</code> and save to reload.
@@ -29,9 +26,11 @@ function App() {
             href="https://reactjs.org"
             target="_blank"
             rel="noopener noreferrer">
-            Hello Tally
+            PLACEHOLDER
           </a>
-        </header>
+          <ActivityFeed />
+          <MainInput />
+        </main>
       </div>
     </RecoilRoot>
   )
