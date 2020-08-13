@@ -14,9 +14,9 @@ export const hideMainInputState = atom({
 })
 export const godDataState = atom({
   key: 'godDataState',
-  default: [{}],
+  default: [],
 })
 export const creationDataState = atom({
   key: 'creationDataState',
-  default: [{}],
+  default: [],
 })

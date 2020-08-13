@@ -28,6 +28,8 @@
   color: #61dafb;
 }
 .main-input {
+  background-color: #282c34;
+  z-index: 100;
   height: 150px;
   position: absolute;
   padding-bottom: 30px;
@@ -36,7 +38,12 @@
   border-top: solid 3px white;
   font-size: 16px;
 }
-
+.activityfeed {
+  overflow-y: scroll;
+  height: 75%;
+  position: absolute;
+  top: 20px;
+}
 .main-input p {
   margin-top: 4px;
 }

@@ -70,7 +70,6 @@ export const godGenerator = () => {
       ? nameMiddle[getRandomInt(nameMiddle.length)] +
         nameSuffix[getRandomInt(nameSuffix.length)]
       : nameSuffix[getRandomInt(nameSuffix.length)])
-  console.log(newlyGeneratedGodName)
   return newlyGeneratedGodName
 }
 
@@ -199,12 +198,11 @@ export const titleGenerator = () => {
     .replace(/Object/, `${object[getRandomInt(object.length)]}`)
     .replace(/Subject/, `${subject[getRandomInt(subject.length)]}`)
 
-  console.log(selectedTitle)
   return selectedTitle
 }
 
-export const fetchGodData = () => {
-  const data = fetch('http://localhost:5001/api/Gods', {
+export const fetchGodData = async () => {
+  const data = await fetch('http://localhost:5000/api/Gods', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -213,16 +211,14 @@ export const fetchGodData = () => {
   })
     .then((response) => response.json())
     .then((resp) => {
-      console.log('resp', resp)
       return resp
     })
-  console.log('check', data)
 
   return data
 }
 
 export const fetchCreationData = () => {
-  const data = fetch('http://localhost:5001/api/Creations', {
+  const data = fetch('http://localhost:5000/api/Creations', {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -231,16 +227,13 @@ export const fetchCreationData = () => {
   })
     .then((response) => response.json())
     .then((resp) => {
-      console.log('resp', resp)
       return resp
     })
-  console.log('check', data)
 
   return data
 }
 
 export const forgeDivineCreation = (creator) => {
-  console.log('creator', creator)
   const object = [
     'Friends',
     'Strangers',
@@ -278,12 +271,10 @@ export const forgeDivineCreation = (creator) => {
     'The Weak',
     'Failures',
   ]
-  console.log('creator', creator)
 
   const name = object[getRandomInt(object.length)]
-  console.log('name', name)
   if (creator && name) {
-    const data = fetch('http://localhost:5001/api/Creations', {
+    const data = fetch('http://localhost:5000/api/Creations', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -297,128 +288,138 @@ export const forgeDivineCreation = (creator) => {
     })
       .then((response) => response.json())
       .then((resp) => {
-        console.log('resp', resp)
         return resp
       })
-    console.log('check', data)
 
     return data
   }
 }
 
 export const deleteCreation = (id) => {
-  const data = fetch(`http://localhost:5001/api/Creations?id=${id}`, {
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((resp) => {
-      console.log('resp', resp)
-      return resp
+  const data =
+    id &&
+    fetch(`http://localhost:5000/api/Creations?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
     })
-  console.log('check', data)
+      .then((response) => response.json())
+      .then((resp) => {
+        return resp
+      })
 
   return data
 }
 
 export const addOrSubtractDivineCreations = (id, addOrSubtract, quantity) => {
-  const data = fetch(
-    `http://localhost:5001/api/Creations?id=${id}&addOrSubtact=${addOrSubtract}&quantity=${quantity}`,
-    {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+  if (id && quantity && addOrSubtract) {
+    const data = fetch(
+      `http://localhost:5000/api/Creations?id=${id}&addOrSubtact=${addOrSubtract}&quantity=${quantity}`,
+      {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((resp) => {
+        return resp
+      })
+    if (data.population <= 0) {
+      return deleteCreation(data.id)
     }
-  )
-    .then((response) => response.json())
-    .then((resp) => {
-      console.log('resp', resp)
-      return resp
-    })
-  if (data.population <= 0) {
-    return deleteCreation(data.id)
+    return data
   }
-
-  return data
 }
 
 export const changeDivineFavor = (id, addOrSubtract, quantity) => {
-  const data = fetch(
-    `http://localhost:5001/api/Gods?id=${id}&addOrSubtact=${addOrSubtract}&quantity=${quantity}`,
-    {
-      method: 'PUT',
+  if (id && quantity && addOrSubtract) {
+    const data = fetch(
+      `http://localhost:5000/api/Gods?id=${id}&addOrSubtact=${addOrSubtract}&quantity=${quantity}`,
+      {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((resp) => {
+        return resp
+      })
+
+    return data
+  }
+}
+
+export const deleteGod = (id) => {
+  const data =
+    id &&
+    fetch(`http://localhost:5000/api/Gods?id=${id}`, {
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }
-  )
-    .then((response) => response.json())
-    .then((resp) => {
-      console.log('resp', resp)
-      return resp
     })
-  console.log('check', data)
-
-  return data
-}
-
-export const deleteGod = (id) => {
-  const data = fetch(`http://localhost:5001/api/Gods?id=${id}`, {
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((resp) => {
-      console.log('resp', resp)
-      return resp
-    })
-  console.log('check', data)
+      .then((response) => response.json())
+      .then((resp) => {
+        return resp
+      })
 
   return data
 }
 
 export const attackOtherGod = async (attacker, defender) => {
-  const differenceBetween = attacker.favor - defender.favor
+  const differenceBetween = attacker?.favor - defender?.favor
+  let message
   if (differenceBetween > 3) {
     await deleteGod(defender.id)
-    return `${attacker.name} ${attacker.title}  destroyed ${defender.name}, ${defender.title}! Without their influence, their creations cannot last.`
+    message = `${attacker.name} ${attacker.title}  destroyed ${defender.name}, ${defender.title}! Without their influence, their creations cannot last.`
+    return { message }
   } else if (differenceBetween < 3 && differenceBetween > 0) {
     await changeDivineFavor(attacker.id, 'add', 2)
     await changeDivineFavor(defender.id, 'subtract', 2)
-    return `${attacker.name} ${attacker.title}  attacked ${defender.name}, ${defender.title}! ${defender.name} has been wounded.`
+    message = `${attacker?.name} ${attacker.title}  attacked ${defender.name}, ${defender.title}! ${defender.name} has been wounded.`
+    return { message }
   } else if (differenceBetween > -3 && differenceBetween < 0) {
     await changeDivineFavor(attacker.id, 'subtract', 2)
     await changeDivineFavor(defender.id, 'add', 2)
-    return `${attacker.name} ${attacker.title}  attacked ${defender.name}, ${defender.title}! ${attacker.name} has been wounded.`
+    message = `${attacker?.name} ${attacker.title}  attacked ${defender.name}, ${defender.title}! ${attacker.name} has been wounded.`
+    return { message }
   } else if (differenceBetween < -3) {
     await deleteGod(attacker.id)
-    return `${attacker.name}, ${attacker.title}, attacked ${defender.name}, ${defender.title}, and was destroyed! Without their influence, their creations cannot last.`
+    message = `${attacker.name}, ${attacker.title}, attacked ${defender.name}, ${defender.title}, and was destroyed! Without their influence, their creations cannot last.`
+    return { message }
+  } else if (differenceBetween === 0) {
+    message = `${attacker.name}, ${attacker.title}, attacked ${defender.name}, ${defender.title}, but their power is equal! Neither shall claim victory`
+    return { message }
   }
 }
 
 export const decideAction = async (godData, creationData) => {
   const decisionNumber = getRandomInt(21)
   if (decisionNumber < 5) {
-    return 'A new Deity is born!'
+    const message = 'A new Deity is born!'
+    const godName = await godGenerator()
+    const godTitle = await titleGenerator()
+    return { message, godName, godTitle }
   } else if (decisionNumber < 15) {
     const quantity = getRandomInt(201)
     const godThatWillCreate = godData[getRandomInt(godData.length)]
-    console.log('godThatWillCreate', godThatWillCreate)
     const selectedCreation =
+      godThatWillCreate?.divineCreations &&
       godThatWillCreate.divineCreations[
         getRandomInt(godThatWillCreate.divineCreations?.length)
       ]
-    await addOrSubtractDivineCreations(selectedCreation.id, 'add', quantity)
-    return `${godThatWillCreate.Name} ${godThatWillCreate.title} has created ${quantity} more ${selectedCreation.name}`
+    await addOrSubtractDivineCreations(selectedCreation?.id, 'add', quantity)
+    const message = `${godThatWillCreate.name} ${godThatWillCreate.title} has created ${quantity} more ${selectedCreation?.name}`
+    return { message }
   } else if (decisionNumber !== 20) {
     const quantity = getRandomInt(201)
     const godThatWillDestroy = godData[getRandomInt(godData.length)]
@@ -426,16 +427,17 @@ export const decideAction = async (godData, creationData) => {
     if (godThatWillBeTarget.id == godThatWillDestroy.id) {
       godThatWillBeTarget = godData[getRandomInt(godData.length)]
     }
-    console.log('godThatWillBeTarget', godThatWillBeTarget)
-    const divineCreations = godThatWillBeTarget.divineCreations
+    const divineCreations =
+      godThatWillBeTarget && godThatWillBeTarget.divineCreations
     const selectedCreation =
-      divineCreations[getRandomInt(divineCreations?.length)]
+      divineCreations && divineCreations[getRandomInt(divineCreations?.length)]
     await addOrSubtractDivineCreations(
-      selectedCreation.id,
+      selectedCreation?.id,
       'subtract',
       quantity
     )
-    return `${godThatWillDestroy.Name} ${godThatWillBeTarget.title} has destroyed ${quantity} ${selectedCreation.name}s`
+    const message = `${godThatWillDestroy.name} ${godThatWillBeTarget.title} has destroyed ${quantity} ${selectedCreation?.name}s`
+    return { message }
   } else {
     const godThatWillAttack = godData[getRandomInt(godData.length)]
     let godThatWillDefend = godData[getRandomInt(godData.length)]

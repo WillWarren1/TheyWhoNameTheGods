@@ -11,6 +11,7 @@ import {
   titleGenerator,
   forgeDivineCreation,
 } from '../utils/util'
+import { useInterval } from '../CustomHooks/hooks'
 
 const MainInput = ({ domain }) => {
   const [godname, setGodname] = useRecoilState(godNameState)
@@ -25,6 +26,10 @@ const MainInput = ({ domain }) => {
     setGodname(initialGodName)
     setGodtitle(initialGodTitle)
   }, [])
+
+  // useEffect(() => {
+
+  // }, [hideMainInput])
 
   const onChange = (event) => {
     if (event?.target?.name === 'godname') {
