@@ -1,4 +1,4 @@
-# Defualt Template for SDG .NET Course
+# Template
 
 This is the default template for a simple .NET Core Web API. This template has:
 
@@ -9,11 +9,8 @@ This is the default template for a simple .NET Core Web API. This template has:
 
 ## TODO:
 
-- Make this in into a template
+- Fix connection between deities and their creations
 
-to use:
-
-- [ ] Update your database name in `DatabaseContext.cs`
 
 to Deploy to heroku:
 
@@ -23,6 +20,3 @@ to Deploy to heroku:
   - [ ] change `sdg-template-image` to `your-project-name-image`
   - [ ] change `heroku-web-app` to your web app name on heroku
 
-## PROTIP:
-
-When you are complete with the project and have turned it in to your instructor, update this read me with details about the assignment.
